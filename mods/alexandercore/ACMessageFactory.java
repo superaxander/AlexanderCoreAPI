@@ -3,7 +3,6 @@ package alexanders.mods.alexandercore;
 import alexanders.mods.alexandercore.handler.IEventHandler;
 import alexanders.mods.alexandercore.handler.IHookCollector;
 import com.google.common.base.Function;
-import com.sun.istack.internal.NotNull;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 import java.util.ArrayList;
@@ -23,8 +22,7 @@ public class ACMessageFactory
 
     public class ACFunction implements Function<IHookCollector, Boolean>
     {
-        @Override
-        @NotNull
+        @Override 
         public Boolean apply(IHookCollector o)
         {
             try
