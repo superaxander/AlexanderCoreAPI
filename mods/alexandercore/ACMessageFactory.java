@@ -14,16 +14,9 @@ public class ACMessageFactory
 
     public static void registerEventHandler(IEventHandler handler, String modid)
     {
-        try
-        {
-            Function<IHookCollector, Boolean> f = Class.forName("alexanders.mods.alexandercore.ACFunction").asSubclass(Function.class).newInstance();
-            System.out.println(f);
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
         synchronized (lock)
         {
+            toBeRegisteredHandlers.add(handler);
             boolean b = FMLInterModComms.sendFunctionMessage("alexandercore", "register", "alexanders.mods.alexandercore.ACFunction");
             if(!b)
                 FMLInterModComms.sendRuntimeFunctionMessage("alexandercore", modid, "register", "alexanders.mods.alexandercore.ACFunction");
