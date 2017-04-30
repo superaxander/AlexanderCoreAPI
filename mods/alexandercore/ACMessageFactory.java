@@ -14,11 +14,12 @@ public class ACMessageFactory
 
     public static void registerEventHandler(IEventHandler handler, String modid)
     {
+        System.out.println(Function.class.isAssignableFrom(ACFunction.class));
         synchronized (lock)
         {
-            boolean b = FMLInterModComms.sendFunctionMessage("alexandercore", "register", ACFunction.class.getName());
+            boolean b = FMLInterModComms.sendFunctionMessage("alexandercore", "register", "alexanders.mods.alexandercore.ACMessageFactory.ACFunction");
             if(!b)
-                FMLInterModComms.sendRuntimeFunctionMessage("alexandercore", modid, "register", ACFunction.class.getName());
+                FMLInterModComms.sendRuntimeFunctionMessage("alexandercore", modid, "register", "alexanders.mods.alexandercore.ACMessageFactory.ACFunction");
             System.out.println(b ? "Sent normally" : "Sent at runtime");
         }
     }
