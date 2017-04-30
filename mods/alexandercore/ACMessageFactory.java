@@ -9,40 +9,27 @@ import java.util.ArrayList;
 
 public class ACMessageFactory
 {
-    private static final ArrayList<IEventHandler> toBeRegisteredHandlers = new ArrayList<>();
-    private static final Object lock = new Object();
+    static final ArrayList<IEventHandler> toBeRegisteredHandlers = new ArrayList<>();
+    static final Object lock = new Object();
 
     public static void registerEventHandler(IEventHandler handler, String modid)
     {
-        System.out.println(Function.class.isAssignableFrom(ACFunction.class));
+        try
+        {
+            Function<IHookCollector, Boolean> f = Class.forName("alexanders.mods.alexandercore.ACFunction").asSubclass(Function.class).newInstance();
+            System.out.println(f);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         synchronized (lock)
         {
-            boolean b = FMLInterModComms.sendFunctionMessage("alexandercore", "register", "alexanders.mods.alexandercore.ACMessageFactory.ACFunction");
+            boolean b = FMLInterModComms.sendFunctionMessage("alexandercore", "register", "alexanders.mods.alexandercore.ACFunction");
             if(!b)
-                FMLInterModComms.sendRuntimeFunctionMessage("alexandercore", modid, "register", "alexanders.mods.alexandercore.ACMessageFactory.ACFunction");
+                FMLInterModComms.sendRuntimeFunctionMessage("alexandercore", modid, "register", "alexanders.mods.alexandercore.ACFunction");
             System.out.println(b ? "Sent normally" : "Sent at runtime");
         }
     }
 
-    public class ACFunction implements Function<IHookCollector, Boolean>
-    {
-        @Override 
-        public Boolean apply(IHookCollector o)
-        {
-            try
-            {
-                synchronized (lock)
-                {
-                    for (IEventHandler handler : toBeRegisteredHandlers)
-                        o.addEventHandler(handler);
-                    toBeRegisteredHandlers.clear();
-                }
-            }catch (Exception e)
-            {
-                e.printStackTrace();
-                return false;
-            }
-            return true;
-        }
-    }
+
 }
