@@ -12,11 +12,14 @@ public class ACMessageFactory
     private static final ArrayList<IEventHandler> toBeRegisteredHandlers = new ArrayList<>();
     private static final Object lock = new Object();
 
-    public static void registerEventHandler(IEventHandler handler)
+    public static void registerEventHandler(IEventHandler handler, String modid)
     {
         synchronized (lock)
         {
-            FMLInterModComms.sendFunctionMessage("alexandercore", "register", ACFunction.class.getName());
+            boolean b = FMLInterModComms.sendFunctionMessage("alexandercore", "register", ACFunction.class.getName());
+            if(!b)
+                FMLInterModComms.sendRuntimeFunctionMessage("alexandercore", modid, "register", ACFunction.class.getName());
+            System.out.println(b ? "Sent normally" : "Sent at runtime");
         }
     }
 
