@@ -5,5 +5,5 @@ import net.minecraft.util.EnumHandSide;
 
 public interface IPreTransformSideFirstPersonHandler extends IEventHandler
 {
-    void handle(ItemStack stack, EnumHandSide handSide, float partialTicks, float equipProgress);
+    boolean handle(ItemStack stack, EnumHandSide handSide, float partialTicks, float equipProgress);
 }
